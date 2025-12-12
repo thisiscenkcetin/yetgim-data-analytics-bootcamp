@@ -82,14 +82,14 @@ Bu proje, Türkiye'nin farklı şehirlerinden toplanan hava durumu verilerini Pa
   - Minimum Sıcaklık
   - Kayıt Sayısı
 
-## 🚀 Notebook'u Çalıştırma
+## Notebook'u Çalıştırma
 
 1. VS Code'da `weather_analysis.ipynb` dosyasını açın
 2. Jupyter Notebook yüklü olmalı
 3. Her hücreyi sırasıyla çalıştırın (Ctrl+Enter)
 4. Kod ve çıktılarını birlikte göreceksiniz
 
-## 📦 Gerekli Kütüphaneler
+## Gerekli Kütüphaneler
 
 ```python
 pandas          # Veri analizi
