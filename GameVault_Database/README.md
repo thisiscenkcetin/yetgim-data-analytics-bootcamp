@@ -185,7 +185,7 @@ ORDER BY g.title ASC;
 ## Derin Analiz - Biz de deriniz (:
 
 ``sql
--- BONUS SORGU 1: Her geliştirici firması için oyun sayısı, ortalama puan ve toplam fiyat bilgisi
+-- SORGU 1: Her geliştirici firması için oyun sayısı, ortalama puan ve toplam fiyat bilgisi
 SELECT 
     d.company_name AS "Geliştirici Firma",
     COUNT(g.id) AS "Oyun Sayısı",
@@ -196,7 +196,7 @@ LEFT JOIN games g ON d.id = g.developer_id
 GROUP BY d.id, d.company_name
 ORDER BY COUNT(g.id) DESC;
 
--- BONUS SORGU 2: En yüksek puanlı ilk 5 oyunu getir
+-- SORGU 2: En yüksek puanlı ilk 5 oyunu getir
 SELECT
     g.title AS "Oyun Adı",
     g.rating AS "Puan",
@@ -207,7 +207,7 @@ INNER JOIN developers d ON g.developer_id = d.id
 ORDER BY g.rating DESC
 LIMIT 5;
 
--- BONUS SORGU 3: Her türü için oyun sayısını, ortalama puanını getir
+-- SORGU 3: Her türü için oyun sayısını, ortalama puanını getir
 SELECT 
     gen.name AS "Tür",
     COUNT(DISTINCT g.id) AS "Oyun Sayısı",
@@ -218,7 +218,7 @@ LEFT JOIN games g ON gg.game_id = g.id
 GROUP BY gen.id, gen.name
 ORDER BY COUNT(DISTINCT g.id) DESC;
 
--- BONUS SORGU 4: Oyunları fiyat kategorilerine göre analiz et
+-- SORGU 4: Oyunları fiyat kategorilerine göre analiz et
 SELECT 
     CASE 
         WHEN g.price = 0 THEN 'Ücretsiz'
@@ -249,4 +249,4 @@ SELECT COUNT(*) AS "Toplam Oyun Sayısı" FROM games;
 
 -- VER KONTROLÜ: Veritabanındaki toplam oyun-tür ilişki sayısı
 SELECT COUNT(*) AS "Toplam lişki Sayısı" FROM games_genres;
-``
+```
