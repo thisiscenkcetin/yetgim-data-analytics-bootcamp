@@ -14,14 +14,14 @@ Schema link: https://drawsql.app/teams/-6327/diagrams/gamevault-database
 - **UPDATE/DELETE:** %10 indirim, puan güncelleme, Fallout 4 silindi
 - **SELECT/JOIN:** Tüm oyunlar, RPG filtresi, 500+ fiyat analizi, "War" araması
 
-## Tablo Özeti
+## Tablo 
 
 - `developers`: id (SERIAL, PK), company_name, country, founded_year
 - `games`: id (SERIAL, PK), title, price, release_date, rating, developer_id (FK)
 - `genres`: id (SERIAL, PK), name (UNIQUE), description
 - `games_genres`: id (SERIAL, PK), game_id (FK), genre_id (FK), UNIQUE (game_id, genre_id)
 
-## CREATE Komutları (DDL - Data Definition Language)
+## CREATE Komutlar (DDL - Data Definition Language)
 
 Veritabanı tabloları oluşturma komutları:
 
@@ -67,8 +67,6 @@ CREATE TABLE games_genres (
 
 ## INSERT Komutları (DML - Data Manipulation Language)
 
-Veritabanına veri ekleme komutları:
-
 ```sql
 -- Geliştirici Firmaları Ekleme
 INSERT INTO developers (company_name, country, founded_year) VALUES
@@ -113,9 +111,7 @@ INSERT INTO games_genres (game_id, genre_id) VALUES
 (10, 1), (10, 3); -- Dark Souls III: RPG + Action
 ```
 
-## Veri Güncelleme ve Silme (UPDATE & DELETE)
-
-Mevcut verilerde değişiklik yapma işlemleri:
+## Veri Güncelleme-Silme (UPDATE&DELETE)
 
 ```sql
 -- Tüm oyunların fiyatlarına %10 indirim uygula
@@ -133,9 +129,7 @@ DELETE FROM games
 WHERE title = 'Fallout 4';
 ```
 
-## İstenen Sorgular (SELECT & JOIN)
-
-Veritabanından veri sorgulama ve raporlama işlemleri:
+## İstenen Sorgular (SELECT&JOIN)
 
 ```sql
 -- SORGU 1: Tüm oyunları adına göre alfabetik sırada getir (geliştiricisi ile birlikte)
