@@ -9,23 +9,23 @@ Schema link: https://drawsql.app/teams/-6327/diagrams/gamevault-database
 ## ✓ Tamamlanan Görevler
 
 - **DDL:** 4 tablo oluşturuldu (developers, games, genres, games_genres)
-- **FK/lişkiler:** 1-to-Many ve Many-to-Many tanımlandı (CASCADE)
+- **FK/İlişkiler:** 1-to-Many ve Many-to-Many tanımlandı (CASCADE)
 - **DML:** 5 geliştirici, 5 tür, 10 oyun, 18 ilişki eklendi
 - **UPDATE/DELETE:** %10 indirim, puan güncelleme, Fallout 4 silindi
 - **SELECT/JOIN:** Tüm oyunlar, RPG filtresi, 500+ fiyat analizi, "War" araması
 
 ## Tablo Özeti
 
-- developers: id (SERIAL, PK), company_name, country, founded_year
-- games: id (SERIAL, PK), title, price, release_date, rating, developer_id (FK)
-- genres: id (SERIAL, PK), name (UNIQUE), description
-- games_genres: id (SERIAL, PK), game_id (FK), genre_id (FK), UNIQUE (game_id, genre_id)
+- `developers`: id (SERIAL, PK), company_name, country, founded_year
+- `games`: id (SERIAL, PK), title, price, release_date, rating, developer_id (FK)
+- `genres`: id (SERIAL, PK), name (UNIQUE), description
+- `games_genres`: id (SERIAL, PK), game_id (FK), genre_id (FK), UNIQUE (game_id, genre_id)
 
 ## CREATE Komutları (DDL - Data Definition Language)
 
 Veritabanı tabloları oluşturma komutları:
 
-``sql
+```sql
 -- Geliştiriciler Tablosu Oluşturma
 CREATE TABLE developers (
     id SERIAL PRIMARY KEY,
@@ -54,7 +54,7 @@ CREATE TABLE games (
     FOREIGN KEY (developer_id) REFERENCES developers(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Oyun-Tür lişkisi Tablosu Oluşturma (Many-to-Many)
+-- Oyun-Tür İlişkisi Tablosu Oluşturma (Many-to-Many)
 CREATE TABLE games_genres (
     id SERIAL PRIMARY KEY,
     game_id INT NOT NULL,
@@ -63,13 +63,13 @@ CREATE TABLE games_genres (
     FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE ON UPDATE CASCADE,
     UNIQUE (game_id, genre_id)
 );
-``
+```
 
 ## INSERT Komutları (DML - Data Manipulation Language)
 
 Veritabanına veri ekleme komutları:
 
-``sql
+```sql
 -- Geliştirici Firmaları Ekleme
 INSERT INTO developers (company_name, country, founded_year) VALUES
 ('CD Projekt Red', 'Poland', 2002),
@@ -99,7 +99,7 @@ INSERT INTO games (title, price, release_date, rating, developer_id) VALUES
 ('Elden Ring', 449.99, '2022-02-25', 8.7, 5),
 ('Dark Souls III', 249.99, '2016-04-12', 8.8, 5);
 
--- Oyun-Tür lişkileri Ekleme (Many-to-Many)
+-- Oyun-Tür İlişkileri Ekleme (Many-to-Many)
 INSERT INTO games_genres (game_id, genre_id) VALUES
 (1, 1), (1, 2), -- The Witcher 3: RPG + Open World
 (2, 1), (2, 3), -- Cyberpunk 2077: RPG + Action
@@ -111,13 +111,13 @@ INSERT INTO games_genres (game_id, genre_id) VALUES
 (8, 4), (8, 3), -- Half-Life 2: FPS + Action
 (9, 1), (9, 3), -- Elden Ring: RPG + Action
 (10, 1), (10, 3); -- Dark Souls III: RPG + Action
-``
+```
 
-## Veri Güncelleme-Silme (UPDATE&DELETE)
+## Veri Güncelleme ve Silme (UPDATE & DELETE)
 
 Mevcut verilerde değişiklik yapma işlemleri:
 
-``sql
+```sql
 -- Tüm oyunların fiyatlarına %10 indirim uygula
 UPDATE games 
 SET price = price * 0.90 
@@ -131,17 +131,17 @@ WHERE title = 'The Witcher 3: Wild Hunt';
 -- Fallout 4 oyununu sil
 DELETE FROM games 
 WHERE title = 'Fallout 4';
-``
+```
 
-## istenen Sorgular (SELECT & JOIN)
+## İstenen Sorgular (SELECT & JOIN)
 
-Veritabanından veri sorgulama ve raporlama:
+Veritabanından veri sorgulama ve raporlama işlemleri:
 
-``sql
+```sql
 -- SORGU 1: Tüm oyunları adına göre alfabetik sırada getir (geliştiricisi ile birlikte)
 SELECT 
     g.title AS "Oyun Adı",
-    '' || TO_CHAR(g.price, '9999.99') AS "Fiyat",
+    '₺' || TO_CHAR(g.price, '9999.99') AS "Fiyat",
     d.company_name AS "Geliştirici Firma",
     g.rating AS "Puan"
 FROM games g
@@ -162,7 +162,7 @@ ORDER BY g.rating DESC;
 -- SORGU 3: 500 TL'den pahalı oyunları getir (En pahalısından başlayarak)
 SELECT 
     g.title AS "Oyun Adı",
-    '' || TO_CHAR(g.price, '9999.99') AS "Fiyat",
+    '₺' || TO_CHAR(g.price, '9999.99') AS "Fiyat",
     d.company_name AS "Geliştirici",
     g.release_date AS "Çıkış Tarihi"
 FROM games g
@@ -173,24 +173,24 @@ ORDER BY g.price DESC;
 -- SORGU 4: Adında "War" geçen oyunları bul ve sırala
 SELECT 
     g.title AS "Oyun Adı",
-    '' || TO_CHAR(g.price, '9999.99') AS "Fiyat",
+    '₺' || TO_CHAR(g.price, '9999.99') AS "Fiyat",
     d.company_name AS "Geliştirici",
     g.rating AS "Puan"
 FROM games g
 INNER JOIN developers d ON g.developer_id = d.id
 WHERE g.title LIKE '%War%'
 ORDER BY g.title ASC;
-``
+```
 
-## Derin Analiz - Biz de deriniz (:
+## Derin Sorgu - Biz de deriniz
 
-``sql
+```sql
 -- SORGU 1: Her geliştirici firması için oyun sayısı, ortalama puan ve toplam fiyat bilgisi
 SELECT 
     d.company_name AS "Geliştirici Firma",
     COUNT(g.id) AS "Oyun Sayısı",
     AVG(g.rating) AS "Ortalama Puan",
-    '' || TO_CHAR(SUM(COALESCE(g.price, 0)), '99999.99') AS "Toplam Fiyat"
+    '₺' || TO_CHAR(SUM(COALESCE(g.price, 0)), '99999.99') AS "Toplam Fiyat"
 FROM developers d
 LEFT JOIN games g ON d.id = g.developer_id
 GROUP BY d.id, d.company_name
@@ -200,7 +200,7 @@ ORDER BY COUNT(g.id) DESC;
 SELECT
     g.title AS "Oyun Adı",
     g.rating AS "Puan",
-    '' || TO_CHAR(g.price, '9999.99') AS "Fiyat",
+    '₺' || TO_CHAR(g.price, '9999.99') AS "Fiyat",
     d.company_name AS "Geliştirici"
 FROM games g
 INNER JOIN developers d ON g.developer_id = d.id
@@ -238,15 +238,17 @@ GROUP BY
     END
 ORDER BY MIN(g.price);
 
--- VER KONTROLÜ: Tüm geliştirici firmaları
+-- VERİ KONTROLÜ: Tüm geliştirici firmaları
 SELECT * FROM developers;
 
--- VER KONTROLÜ: Tüm oyun türleri
+-- VERİ KONTROLÜ: Tüm oyun türleri
 SELECT * FROM genres;
 
--- VER KONTROLÜ: Veritabanındaki toplam oyun sayısı
+-- VERİ KONTROLÜ: Veritabanındaki toplam oyun sayısı
 SELECT COUNT(*) AS "Toplam Oyun Sayısı" FROM games;
 
--- VER KONTROLÜ: Veritabanındaki toplam oyun-tür ilişki sayısı
+-- VERİ KONTROLÜ: Veritabanındaki toplam oyun-tür ilişki sayısı
 SELECT COUNT(*) AS "Toplam lişki Sayısı" FROM games_genres;
 ```
+
+
