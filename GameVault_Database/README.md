@@ -21,9 +21,7 @@ Schema link: https://drawsql.app/teams/-6327/diagrams/gamevault-database
 - `genres`: id (SERIAL, PK), name (UNIQUE), description
 - `games_genres`: id (SERIAL, PK), game_id (FK), genre_id (FK), UNIQUE (game_id, genre_id)
 
-## CREATE Komutlar (DDL - Data Definition Language)
-
-Veritabanı tabloları oluşturma komutları:
+## CREATE Komutlar 
 
 ```sql
 -- Geliştiriciler Tablosu Oluşturma
@@ -54,7 +52,7 @@ CREATE TABLE games (
     FOREIGN KEY (developer_id) REFERENCES developers(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Oyun-Tür İlişkisi Tablosu Oluşturma (Many-to-Many)
+-- Oyun-Tür İlişkisi Tablosu Oluşturma 
 CREATE TABLE games_genres (
     id SERIAL PRIMARY KEY,
     game_id INT NOT NULL,
@@ -65,7 +63,7 @@ CREATE TABLE games_genres (
 );
 ```
 
-## INSERT Komutları (DML - Data Manipulation Language)
+## INSERT Komutları 
 
 ```sql
 -- Geliştirici Firmaları Ekleme
